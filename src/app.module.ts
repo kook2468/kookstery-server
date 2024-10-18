@@ -32,7 +32,7 @@ import { CartModule } from './cart/cart.module';
     CartModule,
   ], // 이 모듈에서 필요로 하는 providers를 export하는 ipmort 모듈의 목록],
 
-  controllers: [AppController, CartController],
-  providers: [AppService, CartService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

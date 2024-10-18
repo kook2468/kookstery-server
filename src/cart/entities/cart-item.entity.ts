@@ -1,9 +1,10 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
-import { Column, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { Cart } from './cart.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from 'src/product/entities/product.entity';
 
+@Entity('cartItem')
 export class CartItem extends BaseEntity {
   @ManyToOne(() => Cart, (cart) => cart.cartItems)
   cart: Cart;
@@ -12,7 +13,7 @@ export class CartItem extends BaseEntity {
   @Column({ default: true })
   isSelected: boolean;
 
-  @ApiProperty({ description: '수량' })
+  @ApiProperty({ description: '수량', default: 1 })
   @Column()
   quantity: number;
 
@@ -26,7 +27,7 @@ export class CartItem extends BaseEntity {
   @Column('decimal')
   regularPrice: number;
 
-  @Column('decimal')
+  @Column('decimal', { default: 0 })
   discountPrice: number;
 
   @Column('decimal')

@@ -1,6 +1,6 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Column, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { CartItem } from './cart-item.entity';
 
 export enum CartStatus {
@@ -10,6 +10,7 @@ export enum CartStatus {
   DELETED = 'deleted', //카트를 삭제했거나, 일정 기간동안 사용하지 않아 삭제된 상태
 }
 
+@Entity('cart')
 export class Cart extends BaseEntity {
   @Column({
     type: 'enum',
@@ -24,18 +25,21 @@ export class Cart extends BaseEntity {
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
   cartItems: CartItem[];
 
+  //정가 합
   get totalRegularPrice(): number {
     return this.cartItems.reduce((total, item) => {
       return total + item.regularPrice * item.quantity;
     }, 0);
   }
 
+  //할인금액 합
   get totalDiscountPrice(): number {
     return this.cartItems.reduce((total, item) => {
       return total + item.discountPrice * item.quantity;
     }, 0);
   }
 
+  //최종금액
   get totalFinalPrice(): number {
     return this.cartItems.reduce((total, item) => {
       return total + item.finalPrice * item.quantity;

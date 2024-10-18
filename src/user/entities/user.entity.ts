@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from 'src/common/entities/base.entity';
-import { BeforeInsert, Column, Entity } from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
 import * as bcrpyt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
+import { Cart } from 'src/cart/entities/cart.entity';
 
 @Entity('user')
 export class User extends BaseEntity {
