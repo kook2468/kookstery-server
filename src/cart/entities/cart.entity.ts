@@ -2,13 +2,7 @@ import { BaseEntity } from 'src/common/entities/base.entity';
 import { User } from 'src/user/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { CartItem } from './cart-item.entity';
-
-export enum CartStatus {
-  ACTIVE = 'active', //기본값
-  INACTIVE = 'inactive', //주문이 완료된 후 카트를 비활성화
-  PENDING = 'pending', //결제중 작업 대기중인 상태
-  DELETED = 'deleted', //카트를 삭제했거나, 일정 기간동안 사용하지 않아 삭제된 상태
-}
+import { CartStatus } from 'src/common/enums/cart-status.enum';
 
 @Entity('cart')
 export class Cart extends BaseEntity {
@@ -17,7 +11,7 @@ export class Cart extends BaseEntity {
     enum: CartStatus,
     default: CartStatus.ACTIVE,
   })
-  status: CartStatus;
+  status: CartStatus; //pending, active인 카트는 유저당 하나씩만 존재함. (둘다 가질 수 없다.)
 
   @ManyToOne(() => User, { nullable: false })
   user: User;

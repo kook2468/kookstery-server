@@ -8,9 +8,15 @@ import { CartItem } from './entities/cart-item.entity';
 import { UserModule } from 'src/user/user.module';
 import { CartService } from './cart.service';
 import { AuthModule } from 'src/auth/auth.module';
+import { ProductModule } from 'src/product/product.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cart, CartItem]), UserModule, AuthModule],
+  imports: [
+    TypeOrmModule.forFeature([Cart, CartItem]),
+    UserModule,
+    AuthModule,
+    ProductModule,
+  ],
   controllers: [CartController, CartItemController],
   providers: [CartService, CartItemService],
 })

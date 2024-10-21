@@ -3,11 +3,16 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 import { Cart } from './cart.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from 'src/product/entities/product.entity';
+import { User } from 'src/user/entities/user.entity';
 
-@Entity('cartItem')
+@Entity('cart_item')
 export class CartItem extends BaseEntity {
   @ManyToOne(() => Cart, (cart) => cart.cartItems)
   cart: Cart;
+
+  //유저칼럼
+  @ManyToOne(() => User, { nullable: true })
+  user: User;
 
   @ApiProperty({ description: '구매 선택 여부' })
   @Column({ default: true })
