@@ -4,13 +4,17 @@ export class CreateCartItemDto {
   @IsNotEmpty()
   productId: number;
 
+  @IsNotEmpty()
   quantity: number;
 
-  //note: string;
-
+  @IsNotEmpty()
   regularPrice: number;
 
+  @IsNotEmpty()
   discountPrice: number;
 
+  @IsNotEmpty()
   finalPrice: number;
+
+  //note: string;
 }

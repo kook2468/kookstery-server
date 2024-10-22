@@ -4,6 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   dotenv.config(); //앱모듈 생성 전 env파일 쓰기 위해 설정
@@ -20,6 +21,8 @@ async function bootstrap() {
       exceptionFactory: (errors) => new BadRequestException(errors), //유효성 검사 오류가 발생했을때 BadRequestException 에러 발생하도록 처리
     }),
   );
+
+  app.use(cookieParser());
 
   const options = new DocumentBuilder()
     .setTitle('Kook Studio API Docs')

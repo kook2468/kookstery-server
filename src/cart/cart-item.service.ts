@@ -30,6 +30,7 @@ export class CartItemService {
       const cartDto = new CreateCartDto();
       cartDto.user = user;
       this.cartService.createNewCart(cartDto);
+      console.log('@활성화 카트 생성함');
     }
 
     const product = await this.productService.findById(productId);
@@ -45,6 +46,8 @@ export class CartItemService {
       cart,
       product,
     });
+
+    console.log('@엔티티 인스턴스까지는 생성했어');
 
     return await this.cartItemRepository.save(cartItem);
   }

@@ -19,12 +19,15 @@ export class CartService {
   }
 
   async getCurrentCart(user: User): Promise<Cart | null> {
+    console.log('user : ', user);
     const currentCart = await this.cartRepository.findOne({
       where: {
-        user,
+        user: { id: user.id },
         status: In([CartStatus.ACTIVE, CartStatus.PENDING]),
       },
     });
+
+    console.log('currentCart : ', currentCart);
     return currentCart;
   }
 

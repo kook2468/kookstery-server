@@ -18,7 +18,7 @@ export class AuthController {
   async login(
     @Body() loginDto: LoginDto,
     @Res({ passthrough: true }) res,
-  ): Promise<ResponseDto<{ user: User }>> {
+  ): Promise<ResponseDto<{ user: User; token: string }>> {
     const { user, token } = await this.authService.validateUser(loginDto);
 
     //쿠키 설정
@@ -28,9 +28,10 @@ export class AuthController {
       maxAge: 3600000, //쿠키 만료 시간 (1시간)
     });
 
-    return new ResponseDto(true, { user });
+    return new ResponseDto(true, { user, token });
   }
 
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: '로그아웃' })
   @Post('logout')
   logout(@Res() res: Response): ResponseDto<null> {

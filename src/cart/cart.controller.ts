@@ -29,7 +29,6 @@ export class CartController {
   @UseGuards(AuthGuard)
   @Get()
   async getCart(@CurrentUser() user: User): Promise<ResponseDto<Cart>> {
-    console.log('user', user);
     const currentCart = await this.cartService.getCurrentCart(user);
     return new ResponseDto<Cart>(true, currentCart);
   }
