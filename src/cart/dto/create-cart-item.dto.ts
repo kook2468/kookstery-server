@@ -7,14 +7,5 @@ export class CreateCartItemDto {
   @IsNotEmpty()
   quantity: number;
 
-  @IsNotEmpty()
-  regularPrice: number;
-
-  @IsNotEmpty()
-  discountPrice: number;
-
-  @IsNotEmpty()
-  finalPrice: number;
-
   //note: string;
 }

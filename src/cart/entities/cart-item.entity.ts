@@ -26,7 +26,10 @@ export class CartItem extends BaseEntity {
   @Column({ nullable: true })
   note: string;
 
-  @ManyToOne(() => Product, (product) => product.cartItems, { nullable: false })
+  @ManyToOne(() => Product, (product) => product.cartItems, {
+    nullable: false,
+    eager: true,
+  })
   product: Product;
 
   @Column('decimal')

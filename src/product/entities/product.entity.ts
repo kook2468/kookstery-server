@@ -30,6 +30,15 @@ export class Product extends BaseEntity {
   @Column({ nullable: true })
   imageUrn: string;
 
+  @Column()
+  regularPrice: number;
+
+  @Column()
+  discountPrice: number;
+
+  @Column()
+  finalPrice: number;
+
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
 
