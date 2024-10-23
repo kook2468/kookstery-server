@@ -10,8 +10,7 @@ export class CartItem extends BaseEntity {
   @ManyToOne(() => Cart, (cart) => cart.cartItems)
   cart: Cart;
 
-  //유저칼럼
-  @ManyToOne(() => User, { nullable: true })
+  @ManyToOne(() => User, { nullable: false })
   user: User;
 
   @ApiProperty({ description: '구매 선택 여부' })

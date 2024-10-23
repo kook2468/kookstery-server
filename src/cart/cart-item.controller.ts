@@ -19,7 +19,7 @@ import { UpdateCartItemQuantityDto } from './dto/update-cart-item-quantity.dto';
 
 @ApiTags('카트 아이템')
 @UseGuards(AuthGuard)
-@Controller('cartitem')
+@Controller('cart-items')
 export class CartItemController {
   constructor(private readonly cartItemService: CartItemService) {}
 

@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { BaseEntity } from 'src/common/entities/base.entity';
-import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
+import { BeforeInsert, Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import * as bcrpyt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
 import { Cart } from 'src/cart/entities/cart.entity';
+import { Wishlist } from 'src/wishlist/entities/wishlist.entity';
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -19,6 +20,9 @@ export class User extends BaseEntity {
   @Exclude()
   @Column()
   password: string;
+
+  @OneToOne(() => Wishlist, (wishlist) => wishlist.user)
+  wishlist: Wishlist;
 
   @BeforeInsert()
   async hashPassword() {
