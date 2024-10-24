@@ -4,7 +4,7 @@ import { Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Wishlist } from './wishlist.entity';
 import { Product } from 'src/product/entities/product.entity';
 
-@Entity('wishlist-item')
+@Entity('wishlist_item')
 export class WishlistItem extends BaseEntity {
   @ManyToOne(() => Wishlist, (wishlist) => wishlist.wishlistItems, {
     nullable: false,

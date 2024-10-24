@@ -5,11 +5,15 @@ import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { ResponseDto } from 'src/common/dto/response.dto';
+import { KookCoinService } from 'src/kook-coin/services/kook-coin.service';
 
 @ApiTags('유저')
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly kookCoinService: KookCoinService,
+  ) {}
 
   @ApiOperation({ summary: '회원가입' })
   @ApiResponse({
@@ -30,6 +34,7 @@ export class UserController {
     @Body() createUserDto: CreateUserDto,
   ): Promise<ResponseDto<{ user: User }>> {
     const user = await this.userService.createUser(createUserDto);
+    await this.kookCoinService.createKookCoin(user);
     return new ResponseDto(true, { user });
   }
 

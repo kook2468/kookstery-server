@@ -18,7 +18,7 @@ export class UserService {
   ) {}
 
   async createUser(createUserDto: CreateUserDto): Promise<User> {
-    const { email, username, password } = createUserDto;
+    const { email, username } = createUserDto;
 
     let errors: Record<string, string> = {};
 
