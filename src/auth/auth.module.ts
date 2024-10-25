@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { UserModule } from 'src/user/user.module';
@@ -6,7 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
-    UserModule, //UserService 사용하니까 Module 임포트해두기
+    forwardRef(() => UserModule), //UserService 사용하니까 Module 임포트해두기
     JwtModule.registerAsync({
       //JwtModule을 비동기적으로 설정하는 방법. 환경변수 불러오기 때문에 이렇게 사용
       useFactory: () => ({
