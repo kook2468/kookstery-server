@@ -6,6 +6,7 @@ import { Exclude } from 'class-transformer';
 import { Cart } from 'src/cart/entities/cart.entity';
 import { Wishlist } from 'src/wishlist/entities/wishlist.entity';
 import { KookCoin } from 'src/kook-coin/entities/kook-coin.entity';
+import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
 
 @Entity('user')
 export class User extends BaseEntity {
@@ -27,6 +28,9 @@ export class User extends BaseEntity {
 
   @OneToOne(() => KookCoin, (kookCoin) => kookCoin.user)
   kookCoin: KookCoin;
+
+  @OneToMany(() => ShippingAddress, (shippingAddress) => shippingAddress.user)
+  shippingAddresses: ShippingAddress[];
 
   @BeforeInsert()
   async hashPassword() {
