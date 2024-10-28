@@ -107,6 +107,33 @@ export class CartItemService {
     return this.findById(id);
   }
 
+  async updateCartItemSelected(
+    id: number,
+    isSelected: boolean,
+  ): Promise<CartItem> {
+    const result = await this.cartItemRepository.update(id, { isSelected });
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`카트아이템 (id=${id} 이 존재하지 않습니다.`);
+    }
+
+    //업데이트 후 해당 카트 아이템을 다시 조회
+    return this.findById(id);
+  }
+
+  async findAll(userId: number): Promise<CartItem[]> {
+    const [cartItems, totalCount] = await this.cartItemRepository.findAndCount({
+      where: {
+        cart: {
+          user: {
+            id: userId,
+          },
+        },
+      },
+    });
+    return cartItems;
+  }
+
   async findById(id: number): Promise<CartItem | null> {
     return this.cartItemRepository.findOneBy({ id });
   }

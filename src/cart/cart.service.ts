@@ -26,21 +26,15 @@ export class CartService {
         user: { id: user.id },
         status: In([CartStatus.ACTIVE, CartStatus.PENDING]),
       },
+      relations: ['cartItems'],
     });
 
-    console.log('currentCart : ', currentCart);
+    if (!currentCart) {
+      throw new Error('카트를 찾을 수 없습니다.');
+    }
+
     return currentCart;
   }
-
-  // async getCartByStatus(user: User, status: CartStatus): Promise<Cart | null> {
-  //   const cart = await this.cartRepository.findOne({
-  //     where: {
-  //       user,
-  //       status,
-  //     },
-  //   });
-  //   return cart;
-  // }
 
   async updateCartStatus(user: User, status: CartStatus): Promise<Cart> {
     const cart = await this.getCurrentCart(user);

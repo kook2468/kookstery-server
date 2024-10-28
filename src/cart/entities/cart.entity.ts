@@ -3,6 +3,7 @@ import { User } from 'src/user/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { CartItem } from './cart-item.entity';
 import { CartStatus } from 'src/common/enums/cart-status.enum';
+import { Expose } from 'class-transformer';
 
 @Entity('cart')
 export class Cart extends BaseEntity {
@@ -16,26 +17,31 @@ export class Cart extends BaseEntity {
   @ManyToOne(() => User, { nullable: false })
   user: User;
 
-  @OneToMany(() => CartItem, (cartItem) => cartItem.cart)
+  @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { eager: true })
   cartItems: CartItem[];
 
-  //정가 합
+  //선택된 아이템
+  get selectedCartItems(): CartItem[] {
+    return this.cartItems.filter((item) => item.isSelected);
+  }
+
+  //선택된 아이템의 정가 합
   get totalRegularPrice(): number {
-    return this.cartItems.reduce((total, item) => {
+    return this.selectedCartItems.reduce((total, item) => {
       return total + item.regularPrice * item.quantity;
     }, 0);
   }
 
-  //할인금액 합
+  //선택된 아이템의 할인금액 합
   get totalDiscountPrice(): number {
-    return this.cartItems.reduce((total, item) => {
+    return this.selectedCartItems.reduce((total, item) => {
       return total + item.discountPrice * item.quantity;
     }, 0);
   }
 
-  //최종금액
+  //선택된 아이템의 최종금액
   get totalFinalPrice(): number {
-    return this.cartItems.reduce((total, item) => {
+    return this.selectedCartItems.reduce((total, item) => {
       return total + item.finalPrice * item.quantity;
     }, 0);
   }

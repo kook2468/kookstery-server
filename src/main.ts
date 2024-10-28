@@ -1,7 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { BadRequestException, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  ClassSerializerInterceptor,
+  ValidationPipe,
+} from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import * as cookieParser from 'cookie-parser';
@@ -21,12 +25,13 @@ async function bootstrap() {
       exceptionFactory: (errors) => new BadRequestException(errors), //유효성 검사 오류가 발생했을때 BadRequestException 에러 발생하도록 처리
     }),
   );
+  //app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get()));
 
   app.use(cookieParser());
 
   const options = new DocumentBuilder()
-    .setTitle('Kook Studio API Docs')
-    .setDescription('Kook Studio의 신비한 상점 API description')
+    .setTitle('Kookstery API Docs')
+    .setDescription('Kookstery 신비한 상점 API description')
     .setVersion('1.0')
     .addServer(process.env.APP_URL, 'Local environment')
     //.addServer('https://staging.yourapi.com/', 'Staging')

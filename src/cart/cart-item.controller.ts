@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Patch,
   Post,
@@ -15,7 +16,7 @@ import { CartItemService } from './cart-item.service';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { UpdateCartItemQuantityDto } from './dto/update-cart-item-quantity.dto';
+import { UpdateCartItemDto } from './dto/update-cart-item.dto';
 
 @ApiTags('카트 아이템')
 @UseGuards(AuthGuard)
@@ -55,7 +56,7 @@ export class CartItemController {
   @UseGuards(AuthGuard)
   @Patch('quantity')
   async updateQuantity(
-    @Body() cartItemDto: UpdateCartItemQuantityDto,
+    @Body() cartItemDto: UpdateCartItemDto,
   ): Promise<ResponseDto<CartItem>> {
     // 기존과 같은 수량의 경우는 프론트에서 요청을 보내지 않을거임
     const { id, quantity } = cartItemDto;
@@ -65,6 +66,40 @@ export class CartItemController {
       cartItem,
       200,
       `카트아이템(id=${id}) 수량 변경 성공`,
+    );
+  }
+
+  @ApiOperation({ summary: '카트 아이템 선택/선택취소' })
+  @UseGuards(AuthGuard)
+  @Patch('select')
+  async updateSelected(
+    @Body() cartItemDto: UpdateCartItemDto,
+  ): Promise<ResponseDto<CartItem>> {
+    const { id, isSelected } = cartItemDto;
+    const cartItem = await this.cartItemService.updateCartItemSelected(
+      id,
+      isSelected,
+    );
+    return new ResponseDto<CartItem>(
+      true,
+      cartItem,
+      200,
+      `카트아이템 선택 여부 ${isSelected} 변경 성공`,
+    );
+  }
+
+  @ApiOperation({ summary: '전체 카트 아이템 조회' })
+  @UseGuards(AuthGuard)
+  @Get('select')
+  async fetchAllUserCartItems(
+    @CurrentUser() user: User,
+  ): Promise<ResponseDto<CartItem[]>> {
+    const cartItems = await this.cartItemService.findAll(user.id);
+    return new ResponseDto<CartItem[]>(
+      true,
+      cartItems,
+      200,
+      '전체 카트 아이템 조회 성공',
     );
   }
 }

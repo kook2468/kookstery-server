@@ -46,7 +46,7 @@ export class Product extends BaseEntity {
 
   @Expose()
   get url(): string {
-    return `/product/${this.name}/${this.identifier}/${this.slug}`;
+    return `/product/${this.identifier}/${this.slug}`;
   }
 
   @BeforeInsert()
