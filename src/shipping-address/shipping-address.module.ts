@@ -14,5 +14,6 @@ import { AuthModule } from 'src/auth/auth.module';
   ],
   controllers: [ShippingAddressController],
   providers: [ShippingAddressService],
+  exports: [ShippingAddressService],
 })
 export class ShippingAddressModule {}

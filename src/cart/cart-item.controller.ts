@@ -17,6 +17,8 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UpdateCartItemDto } from './dto/update-cart-item.dto';
+import { plainToClass } from 'class-transformer';
+import { Cart } from './entities/cart.entity';
 
 @ApiTags('카트 아이템')
 @UseGuards(AuthGuard)

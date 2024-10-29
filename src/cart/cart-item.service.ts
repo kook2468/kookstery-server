@@ -10,7 +10,6 @@ import { CreateCartItemDto } from './dto/create-cart-item.dto';
 import { User } from 'src/user/entities/user.entity';
 import { CartService } from './cart.service';
 import { ProductService } from 'src/product/product.service';
-import { CreateCartDto } from './dto/create-cart.dto';
 
 @Injectable()
 export class CartItemService {
@@ -27,14 +26,12 @@ export class CartItemService {
   ): Promise<CartItem> {
     const { productId, quantity } = cartItemDto;
 
-    const cart = await this.cartService.getCurrentCart(user);
+    let cart = await this.cartService.getCurrentCart(user.id);
     const product = await this.productService.findById(productId);
 
     if (!cart) {
       // 활성화 카트 없다면 생성
-      const cartDto = new CreateCartDto();
-      cartDto.user = user;
-      this.cartService.createNewCart(cartDto);
+      cart = await this.cartService.createNewCart(user.id);
       console.log('@활성화 카트 생성함');
     } else {
       const cartItem = await this.cartService.findCartItemByProductId(

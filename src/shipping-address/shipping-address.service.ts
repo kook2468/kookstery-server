@@ -8,13 +8,15 @@ import { ShippingAddress } from './entities/shipping-address.entity';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 import { CreateShippingAddressDto } from './dto/create-shipping-address.dto';
 import { UpdateShippingAddressDto } from './dto/update-shipping-address.dto';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class ShippingAddressService {
   constructor(
-    private readonly dataSource: DataSource, //트랜잭션 처리를 위해 로드
     @InjectRepository(ShippingAddress)
     private readonly shippingAddressRepository: Repository<ShippingAddress>,
+    private readonly dataSource: DataSource, //트랜잭션 처리를 위해 로드
+    private readonly eventEmitter: EventEmitter2, //이벤트 처리를 위해 로드
   ) {}
 
   async deleteShippingAddressById(addressId: number): Promise<void> {
@@ -55,7 +57,13 @@ export class ShippingAddressService {
         user: { id: userId },
       });
 
-      return this.shippingAddressRepository.save(newAddress);
+      const savedAddress =
+        await this.shippingAddressRepository.save(newAddress);
+
+      //현재 cart에 연결된 shippingAddress 없다면 업데이트 하는 이벤트 발생시킴
+      this.eventEmitter.emit('shippingAddress.created', savedAddress, userId);
+
+      return savedAddress;
     });
   }
 
@@ -95,14 +103,22 @@ export class ShippingAddressService {
     manager: EntityManager,
   ): Promise<void> {
     // 기존 기본 배송지 찾아서 isDefault를 false로 설정
-    const defaultAddress = await manager.findOne(ShippingAddress, {
+    const defaultAddress = await this.findDefaultShippingAddress(userId);
+    /*await manager.findOne(ShippingAddress, {
       where: { user: { id: userId }, isDefault: true },
     });
+    */
 
     if (defaultAddress) {
       defaultAddress.isDefault = false;
       await manager.save(defaultAddress);
     }
+  }
+
+  async findDefaultShippingAddress(userId: number): Promise<ShippingAddress> {
+    return this.shippingAddressRepository.findOne({
+      where: { user: { id: userId }, isDefault: true },
+    });
   }
 
   async findAllByUserId(

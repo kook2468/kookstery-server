@@ -1,9 +1,10 @@
 import { BaseEntity } from 'src/common/entities/base.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { CartItem } from './cart-item.entity';
 import { CartStatus } from 'src/common/enums/cart-status.enum';
 import { Expose } from 'class-transformer';
+import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
 
 @Entity('cart')
 export class Cart extends BaseEntity {
@@ -16,6 +17,9 @@ export class Cart extends BaseEntity {
 
   @ManyToOne(() => User, { nullable: false })
   user: User;
+
+  @ManyToOne(() => ShippingAddress, { nullable: true })
+  shippingAddress: ShippingAddress;
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { eager: true })
   cartItems: CartItem[];

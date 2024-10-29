@@ -21,9 +21,11 @@ import { KookCoinRecord } from './kook-coin/entities/kook-coin-record.entity';
 import { ShippingAddressController } from './shipping-address/shipping-address.controller';
 import { ShippingAddressModule } from './shipping-address/shipping-address.module';
 import { ShippingAddress } from './shipping-address/entities/shipping-address.entity';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',

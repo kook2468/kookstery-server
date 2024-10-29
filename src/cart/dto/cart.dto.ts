@@ -1,3 +1,4 @@
+import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
 import { CartItem } from '../entities/cart-item.entity';
 import { Cart } from '../entities/cart.entity';
 
@@ -9,6 +10,7 @@ export class CartDto {
   totalFinalPrice?: number;
   cartItems?: CartItem[];
   selectedCartItems?: CartItem[];
+  shippingAddress: ShippingAddress;
 
   constructor(cart: Cart) {
     this.id = cart.id;
@@ -18,5 +20,6 @@ export class CartDto {
     this.totalDiscountPrice = cart.totalDiscountPrice;
     this.cartItems = cart.cartItems;
     this.selectedCartItems = cart.selectedCartItems;
+    this.shippingAddress = cart.shippingAddress;
   }
 }

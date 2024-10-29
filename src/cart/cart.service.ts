@@ -2,42 +2,69 @@ import { BadRequestException, Injectable, UseGuards } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from './entities/cart.entity';
 import { In, Repository } from 'typeorm';
-import { CreateCartDto } from './dto/create-cart.dto';
 import { CartStatus } from 'src/common/enums/cart-status.enum';
 import { User } from 'src/user/entities/user.entity';
 import { CartItem } from './entities/cart-item.entity';
+import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
+import { ShippingAddressService } from 'src/shipping-address/shipping-address.service';
+import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
 export class CartService {
   constructor(
     @InjectRepository(Cart)
     private readonly cartRepository: Repository<Cart>,
+    private readonly shippingAddressService: ShippingAddressService,
   ) {}
 
-  async createNewCart(cartDto: CreateCartDto): Promise<Cart> {
-    const newCart = this.cartRepository.create(cartDto);
+  @OnEvent('shippingAddress.created')
+  async handleShippingAddressCreated(
+    shippingAddress: ShippingAddress,
+    userId: number,
+  ) {
+    console.log('@shippingAddress.created event 실행');
+    //카트 업데이트 로직
+    const cart = await this.getCurrentCart(userId);
+
+    console.log('@cart : ', cart);
+
+    if (!cart?.shippingAddress) {
+      console.log('@배송지 없음!!');
+      console.log('@shippingAddress : ', shippingAddress);
+      cart.shippingAddress = shippingAddress; // 배송지 연결
+      await this.cartRepository.save(cart);
+    }
+  }
+
+  async createNewCart(userId: number): Promise<Cart> {
+    // 기본 배송지인 shippingAddress 가져옴
+    const defaultShippingAddress =
+      await this.shippingAddressService.findDefaultShippingAddress(userId);
+
+    const newCart = this.cartRepository.create({
+      user: { id: userId },
+      ...(defaultShippingAddress && {
+        shippingAddress: defaultShippingAddress,
+      }),
+    });
+
     return this.cartRepository.save(newCart);
   }
 
-  async getCurrentCart(user: User): Promise<Cart | null> {
-    console.log('user : ', user);
+  async getCurrentCart(userId: number): Promise<Cart | null> {
     const currentCart = await this.cartRepository.findOne({
       where: {
-        user: { id: user.id },
+        user: { id: userId },
         status: In([CartStatus.ACTIVE, CartStatus.PENDING]),
       },
-      relations: ['cartItems'],
+      relations: ['cartItems', 'shippingAddress'],
     });
-
-    if (!currentCart) {
-      throw new Error('카트를 찾을 수 없습니다.');
-    }
 
     return currentCart;
   }
 
   async updateCartStatus(user: User, status: CartStatus): Promise<Cart> {
-    const cart = await this.getCurrentCart(user);
+    const cart = await this.getCurrentCart(user.id);
 
     if (!cart) throw new Error('현재 활성화된 카트가 없습니다.');
 
@@ -49,6 +76,24 @@ export class CartService {
     await this.cartRepository.save(cart); //repository 메소드 호출 이후에는 cart 변수에 모든 변경사항이 반영됨.
 
     return cart;
+  }
+
+  async updateShippingAddress(
+    userId: number,
+    shippingAddressId: number,
+  ): Promise<Cart> {
+    const cart = await this.getCurrentCart(userId);
+
+    if (!cart) {
+      throw new Error('카트를 찾을 수 없습니다.');
+    }
+
+    return this.cartRepository.save({
+      ...cart,
+      shippingAddress: {
+        id: shippingAddressId,
+      },
+    });
   }
 
   async findCartItemByProductId(

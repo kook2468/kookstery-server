@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { Cart } from './entities/cart.entity';
-import { CreateCartDto } from './dto/create-cart.dto';
 import { ResponseDto } from 'src/common/dto/response.dto';
 import { CartService } from './cart.service';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
@@ -8,8 +7,8 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { updateCartStatusDto } from './dto/update-cart-status.dto';
-import { classToPlain, plainToClass, plainToInstance } from 'class-transformer';
 import { CartDto } from './dto/cart.dto';
+import { UpdateCartShippingAddressDto } from './dto/update-cart-shipping-address.dto';
 
 @ApiTags('카트')
 @Controller('cart')
@@ -20,9 +19,7 @@ export class CartController {
   @UseGuards(AuthGuard)
   @Post()
   async createCart(@CurrentUser() user: User): Promise<ResponseDto<Cart>> {
-    const createCartDto = new CreateCartDto();
-    createCartDto.user = user;
-    const cart = await this.cartService.createNewCart(createCartDto);
+    const cart = await this.cartService.createNewCart(user.id);
     return new ResponseDto<Cart>(true, cart, 201, '카트 생성 성공');
   }
 
@@ -30,7 +27,7 @@ export class CartController {
   @UseGuards(AuthGuard)
   @Get()
   async fetchCart(@CurrentUser() user: User): Promise<ResponseDto<CartDto>> {
-    const cart = await this.cartService.getCurrentCart(user);
+    const cart = await this.cartService.getCurrentCart(user.id);
     return new ResponseDto<CartDto>(
       true,
       new CartDto(cart),
@@ -54,5 +51,20 @@ export class CartController {
       201,
       `카트 상태 변경 성공 - ${status}`,
     );
+  }
+
+  @ApiOperation({ summary: '현재 카트 배송지 수정/삭제' })
+  @UseGuards(AuthGuard)
+  @Patch('/shipping-address')
+  async handleUpdateCartShippingAddress(
+    @CurrentUser() user: User,
+    @Body() updateShippingAddressDto: UpdateCartShippingAddressDto,
+  ): Promise<ResponseDto<Cart>> {
+    const updatedCart = await this.cartService.updateShippingAddress(
+      user.id,
+      updateShippingAddressDto.shippingAddressId,
+    );
+
+    return new ResponseDto<Cart>(true, updatedCart, 200, '카트 업데이트 성공');
   }
 }
