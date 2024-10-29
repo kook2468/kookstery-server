@@ -15,7 +15,7 @@ export class KookCoinFacadeService {
   ) {}
 
   async handleKookCoinTransaction(
-    user: User,
+    userId: number,
     dto: KookCoinTransactionDto,
   ): Promise<KookCoin | null> {
     const queryRunner = this.dataSource.createQueryRunner();
@@ -25,7 +25,7 @@ export class KookCoinFacadeService {
 
     try {
       //0. kookCoin 가져오기
-      kookCoin = await this.kookCoinService.findByUserId(user.id);
+      kookCoin = await this.kookCoinService.findByUserId(userId);
 
       //1. 트랜잭션 기록 (KookCoinRecord 생성)
       await this.kookCoinRecordService.recordTransaction(

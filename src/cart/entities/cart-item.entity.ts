@@ -29,7 +29,7 @@ export class CartItem extends BaseEntity {
   @Column({ nullable: true })
   note: string;
 
-  @ManyToOne(() => Product, (product) => product.cartItems, {
+  @ManyToOne(() => Product, {
     nullable: false,
     eager: true,
   })

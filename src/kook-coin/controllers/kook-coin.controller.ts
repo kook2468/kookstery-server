@@ -27,7 +27,7 @@ export class KookCoinController {
     console.log('dto ::: ', dto);
     console.log('dto.amount type', typeof dto.amount);
     const kookCoin = await this.kookCoinFacadeService.handleKookCoinTransaction(
-      user,
+      user.id,
       dto,
     );
 

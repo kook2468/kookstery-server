@@ -42,8 +42,6 @@ export class Product extends BaseEntity {
   @ManyToOne(() => Category, (category) => category.products)
   category: Category;
 
-  cartItems: CartItem[];
-
   @Expose()
   get url(): string {
     return `/product/${this.identifier}/${this.slug}`;

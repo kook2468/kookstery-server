@@ -44,7 +44,7 @@ export class CartController {
     @Body() updateCartStatusDto: updateCartStatusDto,
   ): Promise<ResponseDto<Cart>> {
     const { status } = updateCartStatusDto;
-    const cart = await this.cartService.updateCartStatus(user, status);
+    const cart = await this.cartService.updateCartStatus(user.id, status);
     return new ResponseDto<Cart>(
       true,
       cart,

@@ -5,6 +5,7 @@ import { CartItem } from './cart-item.entity';
 import { CartStatus } from 'src/common/enums/cart-status.enum';
 import { Expose } from 'class-transformer';
 import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
+import { Order } from 'src/order/entities/order.entity';
 
 @Entity('cart')
 export class Cart extends BaseEntity {
@@ -23,6 +24,9 @@ export class Cart extends BaseEntity {
 
   @OneToMany(() => CartItem, (cartItem) => cartItem.cart, { eager: true })
   cartItems: CartItem[];
+
+  @OneToOne(() => Order, (order) => order.cart, { nullable: true })
+  order: Order;
 
   //선택된 아이템
   get selectedCartItems(): CartItem[] {
