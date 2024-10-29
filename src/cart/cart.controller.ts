@@ -6,9 +6,9 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from 'src/user/entities/user.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { updateCartStatusDto } from './dto/update-cart-status.dto';
 import { CartDto } from './dto/cart.dto';
 import { UpdateCartShippingAddressDto } from './dto/update-cart-shipping-address.dto';
+import { UpdateCartStatusDto } from './dto/update-cart-status.dto';
 
 @ApiTags('카트')
 @Controller('cart')
@@ -41,7 +41,7 @@ export class CartController {
   @Patch('/status')
   async handleUpdateCartStatus(
     @CurrentUser() user: User,
-    @Body() updateCartStatusDto: updateCartStatusDto,
+    @Body() updateCartStatusDto: UpdateCartStatusDto,
   ): Promise<ResponseDto<Cart>> {
     const { status } = updateCartStatusDto;
     const cart = await this.cartService.updateCartStatus(user.id, status);
