@@ -2,6 +2,7 @@ import {
   IsDecimal,
   IsInt,
   IsNotEmpty,
+  IsPositive,
   Length,
   Max,
   Min,
@@ -19,4 +20,7 @@ export class KookCoinTransactionDto {
 
   @Length(0, 50, { message: '비밀번호는 6자리 이상이여야 합니다.' })
   description: string; //트랜잭션 설명
+
+  @IsPositive({ message: '거래 후 잔액은 양수여야 합니다.' })
+  balanceAfterTransaction?: number;
 }

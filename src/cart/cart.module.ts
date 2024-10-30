@@ -21,5 +21,6 @@ import { ShippingAddressModule } from 'src/shipping-address/shipping-address.mod
   ],
   controllers: [CartController, CartItemController],
   providers: [CartService, CartItemService],
+  exports: [CartService],
 })
 export class CartModule {}

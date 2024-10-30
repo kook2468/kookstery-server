@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KookCoin } from '../entities/kook-coin.entity';
 import { EntityManager, Repository } from 'typeorm';
@@ -32,6 +36,10 @@ export class KookCoinService {
 
     // 잔액 업데이트
     kookCoin.balance = Number(kookCoin.balance) + amount;
+
+    if (kookCoin.balance < 0) {
+      throw new BadRequestException('거래 후 잔액은 0원 이상이여야 합니다.');
+    }
 
     // 트랜잭션을 통해 변경사항 저장
     return manager.save(KookCoin, kookCoin);

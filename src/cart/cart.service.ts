@@ -1,8 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  UseGuards,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from './entities/cart.entity';
-import { In, Repository } from 'typeorm';
+import { EntityManager, In, Repository } from 'typeorm';
 import { CartStatus } from 'src/common/enums/cart-status.enum';
+import { User } from 'src/user/entities/user.entity';
 import { CartItem } from './entities/cart-item.entity';
 import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
 import { ShippingAddressService } from 'src/shipping-address/shipping-address.service';
@@ -62,7 +68,11 @@ export class CartService {
     return currentCart;
   }
 
-  async updateCartStatus(userId: number, status: CartStatus): Promise<Cart> {
+  async updateCartStatus(
+    userId: number,
+    status: CartStatus,
+    manager?: EntityManager,
+  ): Promise<Cart> {
     const cart = await this.getCurrentCart(userId);
 
     if (!cart) throw new Error('현재 활성화된 카트가 없습니다.');
@@ -72,9 +82,8 @@ export class CartService {
     }
 
     cart.status = status;
-    await this.cartRepository.save(cart); //repository 메소드 호출 이후에는 cart 변수에 모든 변경사항이 반영됨.
 
-    return cart;
+    return manager ? manager.save(Cart, cart) : this.cartRepository.save(cart);
   }
 
   async updateShippingAddress(

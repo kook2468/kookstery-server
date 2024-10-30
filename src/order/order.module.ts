@@ -9,6 +9,7 @@ import { OrderItem } from './entities/order-item.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserModule } from 'src/user/user.module';
 import { CartModule } from 'src/cart/cart.module';
+import { KookCoinModule } from 'src/kook-coin/kook-coin.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CartModule } from 'src/cart/cart.module';
     AuthModule,
     UserModule,
     CartModule,
+    KookCoinModule,
   ],
   providers: [OrderService, OrderItemService, OrderFacadeService],
   controllers: [OrderController],

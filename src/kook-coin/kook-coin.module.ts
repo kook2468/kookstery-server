@@ -20,6 +20,6 @@ import { AuthModule } from 'src/auth/auth.module';
   ],
   controllers: [KookCoinController, KookCoinRecordController],
   providers: [KookCoinService, KookCoinRecordService, KookCoinFacadeService],
-  exports: [KookCoinService],
+  exports: [KookCoinService, KookCoinFacadeService],
 })
 export class KookCoinModule {}

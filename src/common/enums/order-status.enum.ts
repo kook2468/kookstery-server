@@ -6,7 +6,7 @@
  */
 
 export enum OrderStatus {
-  PENDING = 'PENDING', // 결제 전
-  CONFIRMED = 'CONFIRMED', // 주문 확정됨
-  CANCELED = 'CANCELED', // 주문 취소
+  PENDING = 'pending', // 결제 전
+  CONFIRMED = 'confirmed', // 주문 확정됨
+  CANCELED = 'canceled', // 주문 취소
 }

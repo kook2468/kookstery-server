@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KookCoinRecord } from '../entities/kook-coin-record.entity';
 import { Between, EntityManager, Repository } from 'typeorm';
@@ -23,12 +23,20 @@ export class KookCoinRecordService {
     manager: EntityManager,
   ): Promise<KookCoinRecord> {
     const { amount, type, description } = dto;
+    console.log('@typeof amount : ', typeof amount);
+    console.log('@typeof kookCoin.balence : ', typeof kookCoin.balance);
+
     const record = this.kookCoinRecordRepository.create({
       kookCoin,
       amount,
       type,
       description,
+      balanceAfterTransaction: Number(kookCoin.balance) + amount, //거래 후 잔액
     });
+
+    if (record.balanceAfterTransaction < 0) {
+      throw new BadRequestException('거래 후 잔액은 0원 이상이여야 합니다.');
+    }
 
     return manager.save(KookCoinRecord, record);
   }

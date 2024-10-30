@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
@@ -13,7 +14,8 @@ import { KookCoinFacadeService } from 'src/kook-coin/services/kook-coin-facade.s
 import { KookCoinTransactionDto } from 'src/kook-coin/dto/kook-coin-transaction.dto';
 import { KookCoinTransactionType } from 'src/common/enums/kook-coin-transaction-type.enum';
 import { OrderStatus } from 'src/common/enums/order-status.enum';
-import { DataSource } from 'typeorm';
+import { DataSource, EntityManager } from 'typeorm';
+import { error } from 'console';
 
 @Injectable()
 export class OrderFacadeService {
@@ -36,18 +38,21 @@ export class OrderFacadeService {
 
     try {
       /* 1. Order 생성 */
+      console.log('1. Order 생성');
       const cart = await this.cartService.getCurrentCart(userId);
 
       if (!cart) {
         throw new NotFoundException('활성화 카트가 존재하지 않습니다.');
       }
 
-      const order = await this.orderService.createOrder(
+      let order = await this.orderService.createOrder(
         userId,
         cart,
         createOrderDto,
         queryRunner.manager,
       );
+
+      console.log('@ order 완료');
 
       // Cart.isSelectedItems 없으면 에러
       if (!cart?.selectedCartItems.length) {
@@ -57,6 +62,7 @@ export class OrderFacadeService {
       }
 
       /* 2. OrderItem 생성 */
+      console.log('2. OrderItem 생성');
       await this.orderItemService.createOrderItems(
         userId,
         order.id,
@@ -65,9 +71,20 @@ export class OrderFacadeService {
       );
 
       /* 3. Cart 상태 변경 INACTIVE */
-      await this.cartService.updateCartStatus(userId, CartStatus.INACTIVE);
+      console.log('3. Cart 상태 변경 INACTIVE');
+      await this.cartService.updateCartStatus(
+        userId,
+        CartStatus.INACTIVE,
+        queryRunner.manager,
+      );
+
+      // Order 재조회
+      order = await queryRunner.manager.findOneBy(Order, { id: order.id });
 
       /* 4. KookCoin 기록 & 업데이트 */
+      console.log('4. KookCoin 기록 & 업데이트');
+      console.log('@ order?? ', order);
+      console.log('@ order finalPrice ?? ', order.totalFinalPrice);
       const kookCoinTransactionDto = new KookCoinTransactionDto();
       kookCoinTransactionDto.type = KookCoinTransactionType.SPEND;
       kookCoinTransactionDto.amount = Math.abs(order.totalFinalPrice) * -1; //항상 음수
@@ -76,21 +93,31 @@ export class OrderFacadeService {
       await this.kookCoinFacadeService.handleKookCoinTransaction(
         userId,
         kookCoinTransactionDto,
+        queryRunner.manager,
       );
 
       /* 5. Order 상태변경 CONFIRMED (결제가 있다면 이거 전에 결제해야함) */
-      const returnOrder = this.orderService.updateOrderStatus(
+      console.log('5. Order 상태변경 CONFIRMED');
+
+      const returnOrder = await this.orderService.updateOrderStatus(
         order.id,
         OrderStatus.CONFIRMED,
         queryRunner.manager,
       );
 
+      //모든 작업이 성공하면 커밋
+      await queryRunner.commitTransaction();
+
       return returnOrder;
     } catch (error) {
       console.log(error);
+      // 오류 발생시 롤백
       await queryRunner.rollbackTransaction();
-      throw new BadRequestException('주문 생성 중 오류가 발생했습니다.');
+      throw new InternalServerErrorException(
+        '주문 생성 중 오류가 발생했습니다.',
+      );
     } finally {
+      //연결 해제
       await queryRunner.release();
     }
   }
@@ -104,6 +131,10 @@ export class OrderFacadeService {
       //Order 조회
       const order = await this.orderService.findById(orderId);
 
+      if (order.status !== OrderStatus.CONFIRMED) {
+        throw error;
+      }
+
       /* 1. KookCoin 기록 & 업데이트 */
       const kookCoinTransactionDto = new KookCoinTransactionDto();
       kookCoinTransactionDto.type = KookCoinTransactionType.REFUND;
@@ -113,21 +144,29 @@ export class OrderFacadeService {
       await this.kookCoinFacadeService.handleKookCoinTransaction(
         userId,
         kookCoinTransactionDto,
+        queryRunner.manager,
       );
 
       /* 2. Order 상태변경 CANCELD */
-      const returnOrder = this.orderService.updateOrderStatus(
+      const returnOrder = await this.orderService.updateOrderStatus(
         order.id,
         OrderStatus.CANCELED,
         queryRunner.manager,
       );
 
+      //모든 작업이 성공하면 커밋
+      await queryRunner.commitTransaction();
+
       return returnOrder;
     } catch (error) {
       console.log(error);
+      // 오류 발생시 롤백
       await queryRunner.rollbackTransaction();
-      throw new BadRequestException('주문 취소 중 오류가 발생했습니다.');
+      throw new InternalServerErrorException(
+        '주문 취소 중 오류가 발생했습니다.',
+      );
     } finally {
+      //연결 해제
       await queryRunner.release();
     }
   }

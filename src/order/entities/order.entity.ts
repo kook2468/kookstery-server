@@ -20,7 +20,9 @@ export class Order extends BaseEntity {
   @ManyToOne(() => User, { nullable: false })
   user: User;
 
-  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, { eager: true })
+  @OneToMany(() => OrderItem, (orderItem) => orderItem.order, {
+    eager: true,
+  })
   orderItems: OrderItem[];
 
   @Column()
@@ -30,26 +32,26 @@ export class Order extends BaseEntity {
   receiverName: string; //수신인 이름
 
   @Column()
-  deliveryNotes: string; //배송 요청사항
+  deliveryNotes?: string; //배송 요청사항
 
   @Column()
   fullAddress: string; //배송지
 
   get totalRegularPrice(): number {
     return this.orderItems.reduce((total, item) => {
-      return total + item.regularPrice * item.quantity;
+      return total + item.regularPrice;
     }, 0);
   }
 
   get totalDiscountPrice(): number {
     return this.orderItems.reduce((total, item) => {
-      return total + item.discountPrice * item.quantity;
+      return total + item.discountPrice;
     }, 0);
   }
 
   get totalFinalPrice(): number {
     return this.orderItems.reduce((total, item) => {
-      return total + item.finalPrice * item.quantity;
+      return total + item.finalPrice;
     }, 0);
   }
 }

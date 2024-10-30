@@ -8,10 +8,10 @@ export class OrderItemService {
   async createOrderItems(
     userId: number,
     orderId: number,
-    cartItems: CartItem[],
+    selectedCartItems: CartItem[],
     manager: EntityManager,
   ): Promise<OrderItem[]> {
-    const orderItems = cartItems.map((cartItem) => {
+    const orderItems = selectedCartItems.map((cartItem) => {
       return manager.create(OrderItem, {
         ...cartItem,
         user: { id: userId },

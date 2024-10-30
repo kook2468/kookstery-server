@@ -28,9 +28,10 @@ export class CartController {
   @Get()
   async fetchCart(@CurrentUser() user: User): Promise<ResponseDto<CartDto>> {
     const cart = await this.cartService.getCurrentCart(user.id);
+
     return new ResponseDto<CartDto>(
       true,
-      new CartDto(cart),
+      cart ? new CartDto(cart) : null,
       200,
       '카트 조회 성공',
     );
