@@ -11,6 +11,8 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors(); // CORS 활성화
+
   app.useGlobalFilters(new HttpExceptionFilter());
   // Global validation pipe 설정
   app.useGlobalPipes(
