@@ -9,7 +9,10 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "baseUrl": "./", //기준 경로를 현재 디렉토리로 설정
+    "paths": {
+      "src/*": ["./src/*"] // src 폴더에 대한 절대 경로 매핑
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
