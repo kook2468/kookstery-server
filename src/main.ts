@@ -25,6 +25,12 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
+  //서버 요청 로그 추가
+  app.use((req, res, next) => {
+    console.log(`Request URL: ${req.url}`);
+    next();
+  });
+
   const options = new DocumentBuilder()
     .setTitle('Kookstery API Docs')
     .setDescription('Kookstery 신비한 상점 API description')
