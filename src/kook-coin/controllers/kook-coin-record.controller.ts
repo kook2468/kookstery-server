@@ -1,12 +1,12 @@
 import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { KookCoinRecordService } from '../services/kook-coin-record.service';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { AuthGuard } from '../../auth/guards/auth.guard';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from 'src/user/entities/user.entity';
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { User } from '../../user/entities/user.entity';
+import { ResponseDto } from '../../common/dto/response.dto';
 import { KookCoinRecord } from '../entities/kook-coin-record.entity';
-import { KookCoinRecordFilter } from 'src/common/enums/kook-coin-record-filter.enum';
+import { KookCoinRecordFilter } from '../../common/enums/kook-coin-record-filter.enum';
 
 @ApiTags('KookCoin 기록')
 @Controller('kook-coin-record')

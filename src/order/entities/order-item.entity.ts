@@ -1,8 +1,8 @@
-import { BaseEntity } from 'src/common/entities/base.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Order } from './order.entity';
-import { User } from 'src/user/entities/user.entity';
-import { Product } from 'src/product/entities/product.entity';
+import { User } from '../../user/entities/user.entity';
+import { Product } from '../../product/entities/product.entity';
 
 @Entity('order_item')
 export class OrderItem extends BaseEntity {

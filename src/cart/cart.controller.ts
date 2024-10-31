@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { Cart } from './entities/cart.entity';
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { ResponseDto } from '../common/dto/response.dto';
 import { CartService } from './cart.service';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from 'src/user/entities/user.entity';
+import { AuthGuard } from '../auth/guards/auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { User } from '../user/entities/user.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CartDto } from './dto/cart.dto';
 import { UpdateCartShippingAddressDto } from './dto/update-cart-shipping-address.dto';

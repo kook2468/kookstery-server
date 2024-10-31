@@ -1,9 +1,9 @@
-import { BaseEntity } from 'src/common/entities/base.entity';
-import { OrderStatus } from 'src/common/enums/order-status.enum';
-import { User } from 'src/user/entities/user.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
+import { OrderStatus } from '../../common/enums/order-status.enum';
+import { User } from '../../user/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { OrderItem } from './order-item.entity';
-import { Cart } from 'src/cart/entities/cart.entity';
+import { Cart } from '../../cart/entities/cart.entity';
 
 @Entity('order')
 export class Order extends BaseEntity {

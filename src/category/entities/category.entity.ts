@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { BaseEntity } from 'src/common/entities/base.entity';
-import { Product } from 'src/product/entities/product.entity';
-import { makeId, slugify } from 'src/utils/helpers';
+import { BaseEntity } from '../../common/entities/base.entity';
+import { Product } from '../../product/entities/product.entity';
+import { makeId, slugify } from '../../utils/helpers';
 import { BeforeInsert, Column, Entity, Index, OneToMany } from 'typeorm';
 
 @Entity('category')

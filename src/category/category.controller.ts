@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
 import { Category } from './entities/category.entity';
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { ResponseDto } from '../common/dto/response.dto';
 import { CategoryService } from './category.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { Product } from 'src/product/entities/product.entity';
+import { Product } from '../product/entities/product.entity';
 
 @ApiTags('카테고리')
 @Controller('categories')

@@ -1,8 +1,8 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { KookCoin } from './kook-coin.entity';
-import { KookCoinTransactionType } from 'src/common/enums/kook-coin-transaction-type.enum';
+import { KookCoinTransactionType } from '../../common/enums/kook-coin-transaction-type.enum';
 import { IsPositive, Length } from 'class-validator';
-import { BaseEntity } from 'src/common/entities/base.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
 
 @Entity('kook_coin_record')
 export class KookCoinRecord extends BaseEntity {

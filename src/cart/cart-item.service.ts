@@ -7,9 +7,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CartItem } from './entities/cart-item.entity';
 import { Repository } from 'typeorm';
 import { CreateCartItemDto } from './dto/create-cart-item.dto';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { CartService } from './cart.service';
-import { ProductService } from 'src/product/product.service';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class CartItemService {

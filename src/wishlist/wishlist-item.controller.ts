@@ -10,12 +10,12 @@ import {
 } from '@nestjs/common';
 import { WishlistItemService } from './wishlist-item.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import { CreateWishlistItemDto } from './dto/create-wishlist-item.dto';
 import { WishlistItem } from './entities/wishlist-item.entity';
-import { ResponseDto } from 'src/common/dto/response.dto';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from 'src/user/entities/user.entity';
+import { ResponseDto } from '../common/dto/response.dto';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { User } from '../user/entities/user.entity';
 import { WishlistService } from './wishlist.service';
 
 @ApiTags('위시리스트 아이템')

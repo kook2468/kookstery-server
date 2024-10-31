@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
-import { ResponseDto } from 'src/common/dto/response.dto';
-import { User } from 'src/user/entities/user.entity';
+import { ResponseDto } from '../common/dto/response.dto';
+import { User } from '../user/entities/user.entity';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CurrentUser } from './decorators/current-user.decorator';

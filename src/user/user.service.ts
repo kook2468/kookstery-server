@@ -8,7 +8,7 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { validate } from 'class-validator';
-import { mapError } from 'src/utils/error-mapper';
+import { mapError } from '../utils/error-mapper';
 
 @Injectable()
 export class UserService {

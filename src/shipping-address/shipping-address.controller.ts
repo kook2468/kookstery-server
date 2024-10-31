@@ -9,12 +9,12 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ShippingAddressService } from './shipping-address.service';
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { ResponseDto } from '../common/dto/response.dto';
 import { ShippingAddress } from './entities/shipping-address.entity';
 import { CreateShippingAddressDto } from './dto/create-shipping-address.dto';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from 'src/user/entities/user.entity';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { User } from '../user/entities/user.entity';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UpdateShippingAddressDto } from './dto/update-shipping-address.dto';
 

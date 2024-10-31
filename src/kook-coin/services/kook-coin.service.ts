@@ -6,7 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { KookCoin } from '../entities/kook-coin.entity';
 import { EntityManager, Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 import { KookCoinTransactionDto } from '../dto/kook-coin-transaction.dto';
 
 @Injectable()

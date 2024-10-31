@@ -1,9 +1,9 @@
-import { BaseEntity } from 'src/common/entities/base.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { Cart } from './cart.entity';
 import { ApiProperty } from '@nestjs/swagger';
-import { Product } from 'src/product/entities/product.entity';
-import { User } from 'src/user/entities/user.entity';
+import { Product } from '../../product/entities/product.entity';
+import { User } from '../../user/entities/user.entity';
 import { Expose } from 'class-transformer';
 
 @Entity('cart_item')

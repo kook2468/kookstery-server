@@ -4,8 +4,8 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { ResponseDto } from 'src/common/dto/response.dto';
-import { KookCoinService } from 'src/kook-coin/services/kook-coin.service';
+import { ResponseDto } from '../common/dto/response.dto';
+import { KookCoinService } from '../kook-coin/services/kook-coin.service';
 
 @ApiTags('유저')
 @Controller('user')

@@ -7,10 +7,10 @@ import { KookCoinService } from './services/kook-coin.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { KookCoin } from './entities/kook-coin.entity';
 import { KookCoinRecord } from './entities/kook-coin-record.entity';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { KookCoinFacadeService } from './services/kook-coin-facade.service';
-import { UserModule } from 'src/user/user.module';
-import { AuthModule } from 'src/auth/auth.module';
+import { UserModule } from '../user/user.module';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [

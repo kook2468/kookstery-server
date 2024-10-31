@@ -2,10 +2,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { KookCoinRecord } from '../entities/kook-coin-record.entity';
 import { Between, EntityManager, Repository } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
 import { KookCoinTransactionDto } from '../dto/kook-coin-transaction.dto';
 import { KookCoin } from '../entities/kook-coin.entity';
-import { KookCoinRecordFilter } from 'src/common/enums/kook-coin-record-filter.enum';
+import { KookCoinRecordFilter } from '../../common/enums/kook-coin-record-filter.enum';
 
 @Injectable()
 export class KookCoinRecordService {

@@ -1,8 +1,7 @@
 import { Expose } from 'class-transformer';
-import { CartItem } from 'src/cart/entities/cart-item.entity';
-import { Category } from 'src/category/entities/category.entity';
-import { BaseEntity } from 'src/common/entities/base.entity';
-import { makeId, slugify } from 'src/utils/helpers';
+import { Category } from '../../category/entities/category.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
+import { makeId, slugify } from '../../utils/helpers';
 import { BeforeInsert, Column, Entity, Index, ManyToOne } from 'typeorm';
 
 @Entity('product')

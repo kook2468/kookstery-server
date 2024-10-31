@@ -1,12 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { BaseEntity } from 'src/common/entities/base.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
 import { BeforeInsert, Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import * as bcrpyt from 'bcryptjs';
 import { Exclude } from 'class-transformer';
-import { Cart } from 'src/cart/entities/cart.entity';
-import { Wishlist } from 'src/wishlist/entities/wishlist.entity';
-import { KookCoin } from 'src/kook-coin/entities/kook-coin.entity';
-import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
+import { Wishlist } from '../../wishlist/entities/wishlist.entity';
+import { KookCoin } from '../../kook-coin/entities/kook-coin.entity';
+import { ShippingAddress } from '../../shipping-address/entities/shipping-address.entity';
 
 @Entity('user')
 export class User extends BaseEntity {

@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { KookCoinFacadeService } from '../services/kook-coin-facade.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from 'src/user/entities/user.entity';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { CurrentUser } from '../../auth/decorators/current-user.decorator';
+import { User } from '../../user/entities/user.entity';
+import { AuthGuard } from '../../auth/guards/auth.guard';
 import { KookCoin } from '../entities/kook-coin.entity';
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { ResponseDto } from '../../common/dto/response.dto';
 import { KookCoinTransactionDto } from '../dto/kook-coin-transaction.dto';
 import { KookCoinService } from '../services/kook-coin.service';
 

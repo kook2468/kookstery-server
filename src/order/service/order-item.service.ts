@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CartItem } from 'src/cart/entities/cart-item.entity';
+import { CartItem } from '../../cart/entities/cart-item.entity';
 import { EntityManager } from 'typeorm';
 import { OrderItem } from '../entities/order-item.entity';
 

@@ -4,13 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { CreateWishlistItemDto } from './dto/create-wishlist-item.dto';
-import { User } from 'src/user/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { WishlistItem } from './entities/wishlist-item.entity';
 import { WishlistService } from './wishlist.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ProductService } from 'src/product/product.service';
-import { LargeNumberLike } from 'crypto';
+import { ProductService } from '../product/product.service';
 
 @Injectable()
 export class WishlistItemService {

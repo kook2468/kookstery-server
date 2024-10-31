@@ -1,6 +1,6 @@
 import { IsDecimal, IsInt, IsPositive, Max, Min } from 'class-validator';
-import { BaseEntity } from 'src/common/entities/base.entity';
-import { User } from 'src/user/entities/user.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
+import { User } from '../../user/entities/user.entity';
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
 @Entity('kook_coin')

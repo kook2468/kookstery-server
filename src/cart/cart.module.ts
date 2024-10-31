@@ -5,11 +5,11 @@ import { CartController } from './cart.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Cart } from './entities/cart.entity';
 import { CartItem } from './entities/cart-item.entity';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '../user/user.module';
 import { CartService } from './cart.service';
-import { AuthModule } from 'src/auth/auth.module';
-import { ProductModule } from 'src/product/product.module';
-import { ShippingAddressModule } from 'src/shipping-address/shipping-address.module';
+import { AuthModule } from '../auth/auth.module';
+import { ProductModule } from '../product/product.module';
+import { ShippingAddressModule } from '../shipping-address/shipping-address.module';
 
 @Module({
   imports: [

@@ -1,11 +1,10 @@
-import { BaseEntity } from 'src/common/entities/base.entity';
-import { User } from 'src/user/entities/user.entity';
+import { BaseEntity } from '../../common/entities/base.entity';
+import { User } from '../../user/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { CartItem } from './cart-item.entity';
-import { CartStatus } from 'src/common/enums/cart-status.enum';
-import { Expose } from 'class-transformer';
-import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
-import { Order } from 'src/order/entities/order.entity';
+import { CartStatus } from '../../common/enums/cart-status.enum';
+import { ShippingAddress } from '../../shipping-address/entities/shipping-address.entity';
+import { Order } from '../../order/entities/order.entity';
 
 @Entity('cart')
 export class Cart extends BaseEntity {

@@ -7,7 +7,7 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { KookCoinTransactionType } from 'src/common/enums/kook-coin-transaction-type.enum';
+import { KookCoinTransactionType } from '../../common/enums/kook-coin-transaction-type.enum';
 
 export class KookCoinTransactionDto {
   @IsNotEmpty()

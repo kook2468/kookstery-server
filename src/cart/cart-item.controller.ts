@@ -11,14 +11,12 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateCartItemDto } from './dto/create-cart-item.dto';
 import { CartItem } from './entities/cart-item.entity';
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { ResponseDto } from '../common/dto/response.dto';
 import { CartItemService } from './cart-item.service';
-import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
-import { User } from 'src/user/entities/user.entity';
-import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { User } from '../user/entities/user.entity';
+import { AuthGuard } from '../auth/guards/auth.guard';
 import { UpdateCartItemDto } from './dto/update-cart-item.dto';
-import { plainToClass } from 'class-transformer';
-import { Cart } from './entities/cart.entity';
 
 @ApiTags('카트 아이템')
 @UseGuards(AuthGuard)

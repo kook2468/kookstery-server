@@ -1,4 +1,4 @@
-import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
+import { ShippingAddress } from '../../shipping-address/entities/shipping-address.entity';
 import { CartItem } from '../entities/cart-item.entity';
 import { Cart } from '../entities/cart.entity';
 

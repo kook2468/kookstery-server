@@ -3,7 +3,6 @@ import { DataSource, EntityManager } from 'typeorm';
 import { KookCoinRecordService } from './kook-coin-record.service';
 import { KookCoinService } from './kook-coin.service';
 import { KookCoin } from '../entities/kook-coin.entity';
-import { User } from 'src/user/entities/user.entity';
 import { KookCoinTransactionDto } from '../dto/kook-coin-transaction.dto';
 
 @Injectable()

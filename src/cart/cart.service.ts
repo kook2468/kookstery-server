@@ -7,11 +7,11 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Cart } from './entities/cart.entity';
 import { EntityManager, In, Repository } from 'typeorm';
-import { CartStatus } from 'src/common/enums/cart-status.enum';
-import { User } from 'src/user/entities/user.entity';
+import { CartStatus } from '../common/enums/cart-status.enum';
+import { User } from '../user/entities/user.entity';
 import { CartItem } from './entities/cart-item.entity';
-import { ShippingAddress } from 'src/shipping-address/entities/shipping-address.entity';
-import { ShippingAddressService } from 'src/shipping-address/shipping-address.service';
+import { ShippingAddress } from '../shipping-address/entities/shipping-address.entity';
+import { ShippingAddressService } from '../shipping-address/shipping-address.service';
 import { OnEvent } from '@nestjs/event-emitter';
 
 @Injectable()
