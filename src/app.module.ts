@@ -24,17 +24,19 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { OrderModule } from './order/order.module';
 import { OrderItem } from './order/entities/order-item.entity';
 import { Order } from './order/entities/order.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot(), //환경변수 관리를 위해 사용
     EventEmitterModule.forRoot(), //애플리케이션 내에서 이벤트 시스템 사용하기 위해서 사용 (이벤트 발생시키고 리스닝)
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: process.env.DATABASE_HOST,
       port: 3306,
-      username: 'root',
-      password: '0000',
-      database: 'test',
+      username: process.env.DATABASE_USERNAME,
+      password: process.env.DATABASE_PASSWORD,
+      database: process.env.DATABASE_NAME,
       entities: [
         User,
         Category,
