@@ -3,13 +3,6 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
-    "outputAs": "dist",
-    "assets": [
-      {
-        "include": "**/*",
-        "exclude": "**/*.spec.ts",
-        "outDir": "dist"
-      }
-    ]
+    "deleteOutDir": true
   }
 }

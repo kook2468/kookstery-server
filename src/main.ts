@@ -10,8 +10,13 @@ async function bootstrap() {
   dotenv.config(); //앱모듈 생성 전 env파일 쓰기 위해 설정
 
   const app = await NestFactory.create(AppModule);
-
   app.enableCors(); // CORS 활성화
+
+  //서버 요청 로그 추가
+  app.use((req, res, next) => {
+    console.log(`Request URL: ${req.url}`);
+    next();
+  });
 
   app.useGlobalFilters(new HttpExceptionFilter());
   // Global validation pipe 설정
@@ -23,15 +28,8 @@ async function bootstrap() {
       exceptionFactory: (errors) => new BadRequestException(errors), //유효성 검사 오류가 발생했을때 BadRequestException 에러 발생하도록 처리
     }),
   );
-  //app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get()));
 
   app.use(cookieParser());
-
-  //서버 요청 로그 추가
-  app.use((req, res, next) => {
-    console.log(`Request URL: ${req.url}`);
-    next();
-  });
 
   const options = new DocumentBuilder()
     .setTitle('Kookstery API Docs')
@@ -49,3 +47,5 @@ async function bootstrap() {
 }
 
 bootstrap();
+
+export default bootstrap;
