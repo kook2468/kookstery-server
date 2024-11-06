@@ -7,6 +7,10 @@ import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
+  process.on('uncaughtException', (error) => {
+    console.error('Uncaught Exception:', error);
+  });
+
   dotenv.config(); //앱모듈 생성 전 env파일 쓰기 위해 설정
 
   const app = await NestFactory.create(AppModule);
