@@ -9,7 +9,7 @@ let app: any;
 async function bootstrap() {
   if (!app) {
     console.log('@@bootstrap() ==> Initializing new server instance');
-    const app = await NestFactory.create(AppModule);
+    app = await NestFactory.create(AppModule);
     app.enableCors();
 
     app.use((req, res, next) => {
@@ -37,17 +37,8 @@ async function bootstrap() {
 
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, document);
-
-    return app;
   }
   return app;
-}
-
-// 서버리스 핸들러
-async function handler(req: any, res: any) {
-  const app = await bootstrap();
-  const expressApp = app.getHttpAdapter().getInstance();
-  return expressApp(req, res);
 }
 
 // 로컬 개발 환경을 위한 서버 시작
@@ -58,3 +49,13 @@ if (process.env.NODE_ENV !== 'production') {
     });
   });
 }
+
+// Vercel 서버리스 함수
+export const handler = async (req: any, res: any) => {
+  const app = await bootstrap();
+  const expressApp = app.getHttpAdapter().getInstance();
+  expressApp(req, res);
+};
+
+// 기본 export를 handler로 설정
+export default handler;
