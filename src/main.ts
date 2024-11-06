@@ -49,7 +49,11 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   console.log('Server is running on port:', process.env.PORT);
-  await app.listen(process.env.PORT || 3000);
+  try {
+    await app.listen(process.env.PORT || 3000); // 포트 번호에 대해 중복 호출 방지
+  } catch (error) {
+    console.error('Port is already in use:', error.message);
+  }
 }
 
 bootstrap();
