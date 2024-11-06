@@ -11,6 +11,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   app.enableCors(); // CORS 활성화
+  app.enableShutdownHooks(); //종료 시 필요한 클린업 작업을 자동으로 처리
 
   //서버 요청 로그 추가
   app.use((req, res, next) => {
@@ -42,6 +43,8 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
+
+  console.log('@@@Server is running on port:', process.env.PORT);
 
   await app.listen(process.env.PORT || 3000);
 }
