@@ -15,9 +15,7 @@
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
-        "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version",
-        "Content-Security-Policy": "default-src 'self'; connect-src 'self' vercel.live *.vercel.app; script-src 'self' 'unsafe-inline' 'unsafe-eval' vercel.live *.vercel.app; script-src-elem 'self' 'unsafe-inline' vercel.live *.vercel.app; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:;",
-        "X-Content-Type-Options": "nosniff"
+        "Access-Control-Allow-Headers": "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
       }
     }
   ]
