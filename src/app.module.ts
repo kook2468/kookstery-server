@@ -33,7 +33,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DATABASE_HOST,
-      port: 5432,
+      port: parseInt(process.env.DATABASE_PORT),
       username: process.env.DATABASE_USERNAME,
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_NAME,
@@ -51,7 +51,7 @@ import { ConfigModule } from '@nestjs/config';
         Order,
         OrderItem,
       ], //entities: [__dirname + '/**/*.entity{.ts,.js}'], // typeORM이 구동될 때 인식하도록 할 entity 클래스 경로 지정
-      synchronize: false, //서비스 구독 시 소스 코드 기반으로 DB 스키마 동기화할지 여부, PROD에서는 false로 할 것
+      synchronize: true, //서비스 구독 시 소스 코드 기반으로 DB 스키마 동기화할지 여부, PROD에서는 false로 할 것
     }),
     UserModule,
     AuthModule,
