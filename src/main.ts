@@ -2,17 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import * as dotenv from 'dotenv';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  process.on('uncaughtException', (error) => {
-    console.error('Uncaught Exception:', error);
-  });
-
-  dotenv.config(); //앱모듈 생성 전 env파일 쓰기 위해 설정
-
   const app = await NestFactory.create(AppModule);
   app.enableCors(); // CORS 활성화
   app.enableShutdownHooks(); //종료 시 필요한 클린업 작업을 자동으로 처리
