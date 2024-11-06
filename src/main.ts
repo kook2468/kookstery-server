@@ -11,13 +11,11 @@ async function bootstrap() {
     app.enableCors(); // CORS 활성화
     app.enableShutdownHooks(); //종료 시 필요한 클린업 작업을 자동으로 처리
 
-    //서버 요청 로그 추가
     app.use((req, res, next) => {
-      console.log(`Request URL: ${req.url}`);
+      req.headers['content-type'] = 'application/json';
       next();
     });
 
-    app.useGlobalFilters(new HttpExceptionFilter());
     // Global validation pipe 설정
     app.useGlobalPipes(
       new ValidationPipe({
@@ -27,6 +25,8 @@ async function bootstrap() {
         exceptionFactory: (errors) => new BadRequestException(errors), //유효성 검사 오류가 발생했을때 BadRequestException 에러 발생하도록 처리
       }),
     );
+
+    app.useGlobalFilters(new HttpExceptionFilter());
 
     const options = new DocumentBuilder()
       .setTitle('Kookstery API Docs')
