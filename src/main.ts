@@ -52,9 +52,17 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Vercel 서버리스 함수
 export const handler = async (req: any, res: any) => {
-  const app = await bootstrap();
-  const expressApp = app.getHttpAdapter().getInstance();
-  expressApp(req, res);
+  try {
+    const app = await bootstrap();
+    const expressApp = app.getHttpAdapter().getInstance();
+    await expressApp(req, res); // await 추가
+  } catch (error) {
+    console.error('Request handling error:', error); // 에러 로깅 추가
+    res.status(500).json({
+      error: 'Internal Server Error',
+      details: error.message,
+    });
+  }
 };
 
 // 기본 export를 handler로 설정
