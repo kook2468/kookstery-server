@@ -4,52 +4,57 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filter/http-exception.filter';
 
-let cachedApp: any;
+let app: any;
 
 async function bootstrap() {
-  if (!cachedApp) {
+  if (!app) {
     console.log('@@bootstrap() ==> Initializing new server instance');
-    try {
-      const app = await NestFactory.create(AppModule);
-      app.enableCors(); // CORS 활성화
-      app.enableShutdownHooks(); //종료 시 필요한 클린업 작업을 자동으로 처리
+    const app = await NestFactory.create(AppModule);
+    app.enableCors();
 
-      app.use((req, res, next) => {
-        req.headers['content-type'] = 'application/json';
-        next();
-      });
+    app.use((req, res, next) => {
+      req.headers['content-type'] = 'application/json';
+      next();
+    });
 
-      // Global validation pipe 설정
-      app.useGlobalPipes(
-        new ValidationPipe({
-          whitelist: true, // DTO에 없는 필드 제거
-          forbidNonWhitelisted: true, // 허용되지 않은 필드가 있으면 오류 발생
-          transform: true, // 요청 데이터를 DTO로 변환
-          exceptionFactory: (errors) => new BadRequestException(errors), //유효성 검사 오류가 발생했을때 BadRequestException 에러 발생하도록 처리
-        }),
-      );
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+        exceptionFactory: (errors) => new BadRequestException(errors),
+      }),
+    );
 
-      app.useGlobalFilters(new HttpExceptionFilter());
+    app.useGlobalFilters(new HttpExceptionFilter());
 
-      const options = new DocumentBuilder()
-        .setTitle('Kookstery API Docs')
-        .setDescription('Kookstery 신비한 상점 API description')
-        .setVersion('1.0')
-        .addServer(process.env.APP_URL, 'Local environment')
-        //.addServer('https://staging.yourapi.com/', 'Staging')
-        //.addServer('https://production.yourapi.com/', 'Production')
-        .build();
+    const options = new DocumentBuilder()
+      .setTitle('Kookstery API Docs')
+      .setDescription('Kookstery 신비한 상점 API description')
+      .setVersion('1.0')
+      .addServer(process.env.APP_URL, 'Local environment')
+      .build();
 
-      const document = SwaggerModule.createDocument(app, options);
-      SwaggerModule.setup('api', app, document);
+    const document = SwaggerModule.createDocument(app, options);
+    SwaggerModule.setup('api', app, document);
 
-      cachedApp = app;
-    } catch (error) {
-      console.error('@@error', error.message);
-      throw error;
-    }
+    return app;
   }
-  return cachedApp;
+  return app;
 }
 
-export default bootstrap;
+// 서버리스 핸들러
+async function handler(req: any, res: any) {
+  const app = await bootstrap();
+  const expressApp = app.getHttpAdapter().getInstance();
+  return expressApp(req, res);
+}
+
+// 로컬 개발 환경을 위한 서버 시작
+if (process.env.NODE_ENV !== 'production') {
+  bootstrap().then((app) => {
+    app.listen(process.env.PORT || 3000, () => {
+      console.log('Server is running on port:', process.env.PORT || 3000);
+    });
+  });
+}
