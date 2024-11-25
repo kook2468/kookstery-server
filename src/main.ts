@@ -11,7 +11,12 @@ async function bootstrap() {
     console.log('@@bootstrap() ==> Initializing new server instance');
     try {
       const app = await NestFactory.create(AppModule);
-      app.enableCors();
+      app.enableCors({
+        origin: process.env.FRONTEND_URL,
+        credentials: true,
+        methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+        allowedHeaders: 'Content-Type,Authorization'
+      });
 
       app.use((req, res, next) => {
         req.headers['content-type'] = 'application/json';
@@ -31,7 +36,7 @@ async function bootstrap() {
 
       const options = new DocumentBuilder()
         .setTitle('Kookstery API Docs')
-        .setDescription('Kookstery 신비한 상점 API description')
+        .setDescription('Kookstery 신비한 상점 API description')z
         .setVersion('1.0')
         .addServer(process.env.APP_URL, 'Local environment')
         .build();
