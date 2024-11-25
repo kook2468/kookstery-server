@@ -15,7 +15,7 @@ async function bootstrap() {
         origin: process.env.FRONTEND_URL,
         credentials: true,
         methods: 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-        allowedHeaders: 'Content-Type,Authorization'
+        allowedHeaders: 'Content-Type,Authorization',
       });
 
       app.use((req, res, next) => {
@@ -36,7 +36,7 @@ async function bootstrap() {
 
       const options = new DocumentBuilder()
         .setTitle('Kookstery API Docs')
-        .setDescription('Kookstery 신비한 상점 API description')z
+        .setDescription('Kookstery 신비한 상점 API description')
         .setVersion('1.0')
         .addServer(process.env.APP_URL, 'Local environment')
         .build();
