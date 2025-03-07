@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { Category } from './entities/category.entity';
 import { ResponseDto } from '../common/dto/response.dto';
 import { CategoryService } from './category.service';

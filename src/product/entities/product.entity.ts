@@ -42,6 +42,11 @@ export class Product extends BaseEntity {
   category: Category;
 
   @Expose()
+  get categoryName(): string {
+    return this.category?.name || '';
+  }
+
+  @Expose()
   get url(): string {
     return `/product/${this.identifier}/${this.slug}`;
   }

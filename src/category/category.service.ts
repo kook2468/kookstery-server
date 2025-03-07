@@ -35,7 +35,7 @@ export class CategoryService {
   async findProductsById(categoryId: number): Promise<Product[]> {
     const category = await this.categoryRepository.findOne({
       where: { id: categoryId },
-      relations: ['products'], // 카테고리에 속한 상품 목록을 불러옵니다.
+      relations: ['products', 'products.category'], // 카테고리에 속한 상품 목록을 불러옵니다.
     });
 
     if (!category) {
