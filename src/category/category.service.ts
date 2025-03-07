@@ -44,4 +44,8 @@ export class CategoryService {
 
     return category.products;
   }
+
+  async findById(categoryId: number) {
+    return this.categoryRepository.findOneBy({ id: categoryId });
+  }
 }

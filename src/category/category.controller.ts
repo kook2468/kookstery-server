@@ -67,4 +67,19 @@ export class CategoryController {
       `카테고리 아이디가 ${categoryId}인 상품 리스트 조회 완료`,
     );
   }
+
+  @ApiOperation({ summary: '특정 카테고리의 정보 불러오기' })
+  @Get(':categoryId')
+  async getCategoryById(
+    @Param('categoryId') categoryIdParam: string,
+  ): Promise<ResponseDto<Category>> {
+    const categoryId = Number(categoryIdParam);
+    const category = await this.categoryService.findById(categoryId);
+    return new ResponseDto<Category>(
+      true,
+      category,
+      200,
+      `카테고리 아이디가 ${categoryId}인 카테고리 조회 완료`,
+    );
+  }
 }
