@@ -24,8 +24,10 @@ export class AuthController {
     //쿠키 설정
     res.cookie('jwt', token, {
       httpOnly: true, //클라이언트에서 js에 접근할 수 없도록 설정
-      secure: process.env.NODE_ENV === 'production', //HTTPS를 사용하는 경우에만 사용
+      //secure: process.env.NODE_ENV === 'production', //HTTPS를 사용하는 경우에만 사용
       maxAge: 3600000, //쿠키 만료 시간 (1시간)
+      samesite: false,
+      secure: false,
     });
 
     return new ResponseDto(true, { user, token });
