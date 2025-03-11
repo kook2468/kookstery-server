@@ -90,7 +90,7 @@ export class CartItemController {
 
   @ApiOperation({ summary: '전체 카트 아이템 조회' })
   @UseGuards(AuthGuard)
-  @Get('select')
+  @Get()
   async fetchAllUserCartItems(
     @CurrentUser() user: User,
   ): Promise<ResponseDto<CartItem[]>> {
