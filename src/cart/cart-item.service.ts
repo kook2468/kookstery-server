@@ -10,7 +10,6 @@ import { CreateCartItemDto } from './dto/create-cart-item.dto';
 import { User } from '../user/entities/user.entity';
 import { CartService } from './cart.service';
 import { ProductService } from '../product/product.service';
-import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class CartItemService {
@@ -128,10 +127,10 @@ export class CartItemService {
           },
         },
       },
-      relations: ['product'],
+      relations: ['product', 'product.category'],
     });
 
-    return plainToInstance(CartItem, cartItems);
+    return cartItems;
   }
 
   async findById(id: number): Promise<CartItem | null> {
