@@ -128,7 +128,7 @@ export class CartItemService {
           },
         },
       },
-      relations: ['product', 'product.category'],
+      relations: ['product'],
     });
 
     return plainToInstance(CartItem, cartItems);
