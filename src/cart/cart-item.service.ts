@@ -127,8 +127,14 @@ export class CartItemService {
           },
         },
       },
+      relations: ['product'],
     });
-    return cartItems;
+
+    return cartItems.map((item) => {
+      return {
+        ...item,
+      };
+    });
   }
 
   async findById(id: number): Promise<CartItem | null> {

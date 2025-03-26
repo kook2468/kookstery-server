@@ -47,6 +47,11 @@ export class Product extends BaseEntity {
   }
 
   @Expose()
+  get categoryId(): number {
+    return this.category?.id || null; // categoryId를 반환
+  }
+
+  @Expose()
   get url(): string {
     return `/product/${this.identifier}/${this.slug}`;
   }
