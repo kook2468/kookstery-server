@@ -46,6 +46,9 @@ export class ProductService {
   }
 
   async findById(id: number): Promise<Product | null> {
-    return this.productRepository.findOneBy({ id });
+    return this.productRepository.findOne({
+      where: { id },
+      relations: ['category'],
+    });
   }
 }
