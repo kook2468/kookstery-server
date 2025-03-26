@@ -127,7 +127,7 @@ export class CartItemService {
           },
         },
       },
-      relations: ['product'],
+      relations: ['product', 'product.category'],
     });
 
     return cartItems.map((item) => {
