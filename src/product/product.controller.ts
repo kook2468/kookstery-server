@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { Product } from './entities/product.entity';
 import { ResponseDto } from '../common/dto/response.dto';
@@ -39,5 +39,29 @@ export class ProductController {
         '해당 상품이 없습니다.',
       );
     return new ResponseDto<Product>(true, product);
+  }
+
+  @ApiOperation({ summary: '특정 카테고리의 아이디의 상품 리스트 반환' })
+  @Get('categories/:categoryId')
+  async getProductsByCategory(
+    @Param('categoryId') categoryIdParam: string,
+    @Query('page') pageStr: string = '1',
+    @Query('limit') limitStr: string = '10',
+  ): Promise<ResponseDto<Product[]>> {
+    const categoryId = Number(categoryIdParam);
+    const page = Number(pageStr);
+    const limit = Number(limitStr);
+    //const products = await this.categoryService.findProductsById(categoryId);
+    const products = await this.productService.findProductsByCategoryId(
+      categoryId,
+      page,
+      limit,
+    );
+    return new ResponseDto<Product[]>(
+      true,
+      products,
+      200,
+      `카테고리 아이디가 ${categoryId}인 상품 리스트 조회 완료`,
+    );
   }
 }

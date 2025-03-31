@@ -57,30 +57,6 @@ export class CategoryController {
     );
   }
 
-  @ApiOperation({ summary: '특정 카테고리의 아이디의 상품 리스트 반환' })
-  @Get(':categoryId/products')
-  async getProductsByCategory(
-    @Param('categoryId') categoryIdParam: string,
-    @Query('page') pageStr: string = '1',
-    @Query('limit') limitStr: string = '10',
-  ): Promise<ResponseDto<Product[]>> {
-    const categoryId = Number(categoryIdParam);
-    const page = Number(pageStr);
-    const limit = Number(limitStr);
-    //const products = await this.categoryService.findProductsById(categoryId);
-    const products = await this.productService.findProductsByCategoryId(
-      categoryId,
-      page,
-      limit,
-    );
-    return new ResponseDto<Product[]>(
-      true,
-      products,
-      200,
-      `카테고리 아이디가 ${categoryId}인 상품 리스트 조회 완료`,
-    );
-  }
-
   @ApiOperation({ summary: '특정 카테고리의 정보 불러오기' })
   @Get(':categoryId')
   async getCategoryById(
