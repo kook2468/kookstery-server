@@ -51,4 +51,23 @@ export class ProductService {
       relations: ['category'],
     });
   }
+
+  async findProductsByCategoryId(
+    categoryId: number,
+    page: number,
+    limit: number,
+  ): Promise<Product[]> {
+    const products = await this.productRepository.find({
+      where: { category: { id: categoryId } },
+      relations: ['category'], // 카테고리에 속한 상품 목록을 불러옵니다.
+      skip: page * limit,
+      take: limit,
+    });
+
+    if (!products) {
+      throw new Error(`카테고리 아이디 ${categoryId}가 존재하지 않습니다.`);
+    }
+
+    return products;
+  }
 }

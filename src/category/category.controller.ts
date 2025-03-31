@@ -1,15 +1,19 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { Category } from './entities/category.entity';
 import { ResponseDto } from '../common/dto/response.dto';
 import { CategoryService } from './category.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Product } from '../product/entities/product.entity';
+import { ProductService } from 'src/product/product.service';
 
 @ApiTags('카테고리')
 @Controller('categories')
 export class CategoryController {
-  constructor(private readonly categoryService: CategoryService) {}
+  constructor(
+    private readonly categoryService: CategoryService,
+    private readonly productService: ProductService,
+  ) {}
 
   @ApiOperation({ summary: '카테고리 리스트 불러오기' })
   @ApiResponse({
@@ -57,9 +61,18 @@ export class CategoryController {
   @Get(':categoryId/products')
   async getProductsByCategory(
     @Param('categoryId') categoryIdParam: string,
+    @Query('page') pageStr: string = '1',
+    @Query('limit') limitStr: string = '10',
   ): Promise<ResponseDto<Product[]>> {
     const categoryId = Number(categoryIdParam);
-    const products = await this.categoryService.findProductsById(categoryId);
+    const page = Number(pageStr);
+    const limit = Number(limitStr);
+    //const products = await this.categoryService.findProductsById(categoryId);
+    const products = await this.productService.findProductsByCategoryId(
+      categoryId,
+      page,
+      limit,
+    );
     return new ResponseDto<Product[]>(
       true,
       products,
