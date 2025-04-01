@@ -3,7 +3,6 @@ import { Category } from './entities/category.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCategoryDto } from './dto/create-category.dto';
-import { Product } from '../product/entities/product.entity';
 
 @Injectable()
 export class CategoryService {
@@ -31,6 +30,19 @@ export class CategoryService {
   async findByIds(categoryIds: number[]): Promise<Category[]> {
     return this.categoryRepository.findByIds(categoryIds);
   }
+
+  // async findProductsById(categoryId: number): Promise<Product[]> {
+  //   const category = await this.categoryRepository.findOne({
+  //     where: { id: categoryId },
+  //     relations: ['products', 'products.category'], // 카테고리에 속한 상품 목록을 불러옵니다.
+  //   });
+
+  //   if (!category) {
+  //     throw new Error(`카테고리 아이디 ${categoryId}가 존재하지 않습니다.`);
+  //   }
+
+  //   return category.products;
+  // }
 
   async findById(categoryId: number) {
     return this.categoryRepository.findOneBy({ id: categoryId });
