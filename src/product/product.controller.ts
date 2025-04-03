@@ -45,8 +45,8 @@ export class ProductController {
   @Get('categories/:categoryId')
   async getProductsByCategory(
     @Param('categoryId') categoryIdParam: string,
-    @Query('page') pageStr: string = '1',
-    @Query('limit') limitStr: string = '10',
+    @Query('page') pageStr: string = '0',
+    @Query('limit') limitStr: string = '12',
   ): Promise<ResponseDto<Product[]>> {
     const categoryId = Number(categoryIdParam);
     const page = Number(pageStr);

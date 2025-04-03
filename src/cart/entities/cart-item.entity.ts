@@ -4,7 +4,7 @@ import { Cart } from './cart.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from '../../product/entities/product.entity';
 import { User } from '../../user/entities/user.entity';
-import { Expose } from 'class-transformer';
+import { Expose, Transform } from 'class-transformer';
 
 @Entity('cart_item')
 export class CartItem extends BaseEntity {
@@ -38,13 +38,16 @@ export class CartItem extends BaseEntity {
 
   @Column('decimal')
   @Expose()
+  @Transform(({ value }) => Number(value))
   regularPrice: number;
 
   @Column('decimal', { default: 0 })
+  @Transform(({ value }) => Number(value))
   @Expose()
   discountPrice: number;
 
   @Column('decimal')
+  @Transform(({ value }) => Number(value))
   @Expose()
   finalPrice: number;
 }
