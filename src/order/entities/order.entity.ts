@@ -39,19 +39,19 @@ export class Order extends BaseEntity {
 
   get totalRegularPrice(): number {
     return this.orderItems.reduce((total, item) => {
-      return total + item.regularPrice;
+      return total + Number(item.regularPrice);
     }, 0);
   }
 
   get totalDiscountPrice(): number {
     return this.orderItems.reduce((total, item) => {
-      return total + item.discountPrice;
+      return total + Number(item.discountPrice);
     }, 0);
   }
 
   get totalFinalPrice(): number {
     return this.orderItems.reduce((total, item) => {
-      return total + item.finalPrice;
+      return total + Number(item.finalPrice);
     }, 0);
   }
 }
