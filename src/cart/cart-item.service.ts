@@ -5,11 +5,12 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartItem } from './entities/cart-item.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateCartItemDto } from './dto/create-cart-item.dto';
 import { User } from '../user/entities/user.entity';
 import { CartService } from './cart.service';
 import { ProductService } from '../product/product.service';
+import { CartStatus } from 'src/common/enums/cart-status.enum';
 
 @Injectable()
 export class CartItemService {
@@ -125,6 +126,7 @@ export class CartItemService {
           user: {
             id: userId,
           },
+          status: In([CartStatus.ACTIVE, CartStatus.PENDING]),
         },
       },
       relations: ['product', 'product.category'],
